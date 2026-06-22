@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>MotoRoute PWA</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div>
+        <strong>MotoRoute</strong>
+        <small>Motorrad-Navi PWA</small>
+      </div>
+      <button id="locateBtn">📍 Standort</button>
+    </header>
+
+    <main>
+      <section id="map"></section>
+
+      <section class="panel">
+        <nav class="tabs">
+          <button class="tab active" data-tab="route">Route</button>
+          <button class="tab" data-tab="weather">Wetter</button>
+          <button class="tab" data-tab="fuel">Tanken</button>
+          <button class="tab" data-tab="stops">Stopps</button>
+        </nav>
+
+        <div class="tabcontent active" id="route">
+          <h2>Route planen</h2>
+          <label>Ziel / Zwischenstopp</label>
+          <div class="row">
+            <input id="stopInput" placeholder="z. B. Eifel, Nürburgring, Café..." />
+            <button id="addStopBtn">+</button>
+          </div>
+          <div class="row">
+            <select id="segmentMode">
+              <option value="country">nachfolgend Landstraße bevorzugen</option>
+              <option value="highway">nachfolgend Autobahn erlaubt</option>
+              <option value="curvy">nachfolgend kurvig/scenic</option>
+            </select>
+          </div>
+          <ul id="stopList"></ul>
+          <button class="primary" id="buildRouteBtn">Route berechnen</button>
+          <p class="hint">Routing ist als Demo vorbereitet. Für echte kurvige Navigation wird später z. B. GraphHopper/OSRM/Mapbox angebunden.</p>
+        </div>
+
+        <div class="tabcontent" id="weather">
+          <h2>Wetterradar</h2>
+          <button id="toggleRainBtn">🌧️ Regenradar ein/aus</button>
+          <p id="rainStatus" class="hint">RainViewer-Overlay vorbereitet.</p>
+        </div>
+
+        <div class="tabcontent" id="fuel">
+          <h2>Tankstellen & Super</h2>
+          <button id="findFuelBtn">Tankstellen in der Nähe</button>
+          <ul id="fuelList"></ul>
+          <p class="hint">Live-Preise brauchen einen Tankerkönig-API-Key. Platzhalter ist eingebaut.</p>
+        </div>
+
+        <div class="tabcontent" id="stops">
+          <h2>Zwischenstopp-Reiter</h2>
+          <button class="quickPoi" data-type="viewpoint">Spotlights</button>
+          <button class="quickPoi" data-type="restaurant">Essen</button>
+          <button class="quickPoi" data-type="bar">Bars/Cafés</button>
+          <button class="quickPoi" data-type="attraction">Sehenswürdigkeiten</button>
+          <ul id="poiList"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="stopPopup" class="popup hidden">
+    <div class="popup-card">
+      <button id="closePopup">×</button>
+      <h2>Stopp erreicht</h2>
+      <p>Was möchtest du in der Nähe finden?</p>
+      <div class="grid">
+        <button class="quickPoi" data-type="viewpoint">✨ Spotlights</button>
+        <button class="quickPoi" data-type="restaurant">🍽️ Essen</button>
+        <button class="quickPoi" data-type="bar">☕ Bars/Cafés</button>
+        <button class="quickPoi" data-type="attraction">🏰 Sehenswürdigkeiten</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
